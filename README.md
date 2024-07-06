@@ -2,12 +2,12 @@
 # Cryptocurrency Price Tracker
 
 ## Start process
-cd ../cropto 
+cd ../cropto <br>
 docker compose up -d cryptocron
 
 ### Migration DB : only run on the first time
-docker compose up -d db
-docker exec -it backend npx prisma migrate dev --name init -y
+docker compose up -d db br>
+docker exec -it backend npx prisma migrate dev --name init -y br>
 
 
 ## Backend
@@ -17,7 +17,7 @@ http://localhost:3000/
 
 
 ## coinmarketcap.com
-user API from coinmarketcap.com use Quotes Latest v2. 
+user API from coinmarketcap.com use Quotes Latest v2. <br>
 By change cryptocurrency name to slug as the query parameters.
 
 ### Quotes Latest v2
