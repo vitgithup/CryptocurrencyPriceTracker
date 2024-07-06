@@ -6,7 +6,7 @@ cd ../cropto <br>
 docker compose up -d cryptocron
 
 ### Migration DB : only run on the first time
-docker compose up -d db br>
+docker compose up -d db <br>
 docker exec -it backend npx prisma migrate dev --name init -y br>
 
 
