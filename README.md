@@ -23,7 +23,7 @@ By change cryptocurrency name to slug as the query parameters.
 ### Quotes Latest v2
 https://coinmarketcap.com/api/documentation/v1/#operation/getV2CryptocurrencyQuotesLatest
 
-Query Parameters : skip_invalid  <span style="color:red"> don't work</span>
+Query Parameters : skip_invalid  <span style="color:red">*** don't work</span>
 
 
 program will use input cryptocurrency name and conver to slug to call the api : 
