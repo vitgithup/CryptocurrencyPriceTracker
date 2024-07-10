@@ -34,7 +34,7 @@ export default function Home() {
       clearInterval(timer)
     }
 
-    
+
   }, []);
 
 
@@ -45,18 +45,18 @@ export default function Home() {
     e.preventDefault();
     try {
       if (selectCryptocurrency.id) {
-        await axios.put(`${apiUrl}/cryptocurrencies/${selectCryptocurrency.id}`, { name: selectCryptocurrency.name, symbol: selectCryptocurrency.symbol });
+        await axios.put(`${apiUrl}/cryptocurrencies/${selectCryptocurrency.id}`, { name: selectCryptocurrency.name, symbol: selectCryptocurrency.symbol, price: selectCryptocurrency.price });
 
         setCryptocurrencies(
           cryptocurrencies.map((cryptocurrency) => {
             if (cryptocurrency.id === selectCryptocurrency.id) {
-              return { ...cryptocurrency, name: selectCryptocurrency.name, symbol: selectCryptocurrency.symbol };
+              return { ...cryptocurrency, name: selectCryptocurrency.name, symbol: selectCryptocurrency.symbol, price: selectCryptocurrency.price };
             }
             return cryptocurrency;
           })
         );
       } else {
-        const response = await axios.post(`${apiUrl}/cryptocurrencies`, { name: selectCryptocurrency.name, symbol: selectCryptocurrency.symbol });
+        const response = await axios.post(`${apiUrl}/cryptocurrencies`, { name: selectCryptocurrency.name, symbol: selectCryptocurrency.symbol, price: selectCryptocurrency.price });
         setCryptocurrencies([response.data, ...cryptocurrencies]);
       }
       setSelectCryptocurrency({ id: 0, name: '', symbol: '', price: '' });
@@ -102,6 +102,12 @@ export default function Home() {
             placeholder="Symbol"
             value={selectCryptocurrency.symbol}
             onChange={(e) => setSelectCryptocurrency({ ...selectCryptocurrency, symbol: e.target.value.toUpperCase() })}
+            className="mb-2 w-full p-2 border border-gray-300 rounded" required
+          />
+          <input
+            placeholder="Price"
+            value={selectCryptocurrency.price}
+            onChange={(e) => setSelectCryptocurrency({ ...selectCryptocurrency, price: e.target.value.toUpperCase() })}
             className="mb-2 w-full p-2 border border-gray-300 rounded" required
           />
           <div className='flex justify-around'>
