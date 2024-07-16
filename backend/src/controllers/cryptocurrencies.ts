@@ -30,7 +30,7 @@ export const getCryptocurrency: RequestHandler = async (req, res) => {
             },
         });
         if (!cryptocurrency) {
-            throw createHttpError(404, "Cryptocurrency not found");
+            return res.status(404).json({error:"Cryptocurrency not found"});
         }
 
         res.status(200).json(cryptocurrency);
@@ -52,11 +52,11 @@ export const createCryptocurrency: RequestHandler<unknown, unknown, CreateCrypto
     
     try {
         if (!name) {
-            throw createHttpError(400, "Cryptocurrency must have a name");
+            return res.status(400).json({error:"Cryptocurrency must have a name"});
         }
 
         if (!symbol) {
-            throw createHttpError(400, "Cryptocurrency must have a symbol");
+            return res.status(400).json({error:"Cryptocurrency must have a symbol"});
         }
         
         const newCryptocurrency = await prisma.cryptocurrency.create({
@@ -95,11 +95,11 @@ export const updateCryptocurrency: RequestHandler<UpdateCryptocurrencyParams, un
 
 
         if (!newName) {
-            throw createHttpError(400, "Cryptocurrency must have a name");
+            return res.status(400).json({error:"Cryptocurrency must have a name"});
         }
 
         if (!newSymbol) {
-            throw createHttpError(400, "Cryptocurrency must have a symbol");
+            return res.status(400).json({error:"Cryptocurrency must have a symbol"});
         }
 
         const cryptocurrency = await prisma.cryptocurrency.findUnique({
@@ -109,7 +109,7 @@ export const updateCryptocurrency: RequestHandler<UpdateCryptocurrencyParams, un
         });
 
         if (!cryptocurrency) {
-            throw createHttpError(404, "Cryptocurrency not found");
+            return res.status(404).json({error:"Cryptocurrency not found"});
         }
 
         const Updatecryptocurrency = await prisma.cryptocurrency.update({
@@ -141,7 +141,7 @@ export const deleteCryptocurrency: RequestHandler = async (req, res) => {
         });
 
         if (!cryptocurrency) {
-            throw createHttpError(404, "Cryptocurrency not found");
+            return res.status(404).json({error:"Cryptocurrency not found"});
         }
 
         const cryptocurrencyRemove = await prisma.cryptocurrency.delete({

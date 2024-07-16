@@ -1,11 +1,14 @@
 
+
+**** plase remove old docker file becace databace schema is changing. <br>
+
+
 # Cryptocurrency Price Tracker
 
 
-plase remove old docker file becace databace schema is changing. <br>
-Update backend and frontend add more typescript feature.
-
-
+### clean all docker 
+docker system prune -a
+<br>
 
 git clone https://github.com/vitgithup/CryptocurrencyPriceTracker
 
