@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import CardComponent from '../components/CardComponent';
-import exp from 'constants';
 import { Cryptocurrency } from '../interfaces/Cryptocurrency';
+
+import * as CryptocurrenciesApi from '../network/cryptocurrencies_api';
 
 
 export default function Home() {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
   const [cryptocurrencies, setCryptocurrencies] = useState<Cryptocurrency[]>([]);
   const [selectCryptocurrency, setSelectCryptocurrency] = useState<Cryptocurrency>({ id: 0, name: '', symbol: '', price: '' });
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${apiUrl}/cryptocurrencies`);
-      setCryptocurrencies(response.data.reverse());
+      const response = await CryptocurrenciesApi.fetchCryptocurrencies()
+      setCryptocurrencies(response.reverse());
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -45,8 +44,7 @@ export default function Home() {
     e.preventDefault();
     try {
       if (selectCryptocurrency.id) {
-        await axios.put(`${apiUrl}/cryptocurrencies/${selectCryptocurrency.id}`, { name: selectCryptocurrency.name, symbol: selectCryptocurrency.symbol, price: selectCryptocurrency.price });
-
+        const response = await CryptocurrenciesApi.updateCryptocurrency(selectCryptocurrency.id, { name: selectCryptocurrency.name, symbol: selectCryptocurrency.symbol, price: selectCryptocurrency.price })
         setCryptocurrencies(
           cryptocurrencies.map((cryptocurrency) => {
             if (cryptocurrency.id === selectCryptocurrency.id) {
@@ -56,8 +54,8 @@ export default function Home() {
           })
         );
       } else {
-        const response = await axios.post(`${apiUrl}/cryptocurrencies`, { name: selectCryptocurrency.name, symbol: selectCryptocurrency.symbol, price: selectCryptocurrency.price });
-        setCryptocurrencies([response.data, ...cryptocurrencies]);
+        const response = await CryptocurrenciesApi.createCryptocurrency({ name: selectCryptocurrency.name, symbol: selectCryptocurrency.symbol, price: selectCryptocurrency.price })
+        setCryptocurrencies([response, ...cryptocurrencies]);
       }
       setSelectCryptocurrency({ id: 0, name: '', symbol: '', price: '' });
     } catch (error) {
@@ -71,7 +69,7 @@ export default function Home() {
       if (!id) {
         return;
       }
-      await axios.delete(`${apiUrl}/cryptocurrencies/${id}`);
+      await CryptocurrenciesApi.deleteCryptocurrency(id) 
       setCryptocurrencies(cryptocurrencies.filter((cryptocurrency) => cryptocurrency.id !== id));
     } catch (error) {
       console.error('Error deleting cryptocurrency:', error);
@@ -105,7 +103,7 @@ export default function Home() {
             className="mb-2 w-full p-2 border border-gray-300 rounded" required
           />
           <input
-            placeholder="Price"
+            placeholder="Price" type='number'
             value={selectCryptocurrency.price}
             onChange={(e) => setSelectCryptocurrency({ ...selectCryptocurrency, price: e.target.value.toUpperCase() })}
             className="mb-2 w-full p-2 border border-gray-300 rounded" required
