@@ -25,7 +25,7 @@ export async function fetchCryptocurrencies(): Promise<Cryptocurrency[]> {
 export interface CryptocurrencyInput {
     name: string;
     symbol: string;
-    price?: string;
+    price?: number;
 }
 
 export async function createCryptocurrency(cryptocurrency: CryptocurrencyInput): Promise<Cryptocurrency> {

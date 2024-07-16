@@ -42,14 +42,14 @@ export const getCryptocurrency: RequestHandler = async (req, res) => {
 interface CreateCryptocurrencyBody {
     name: string,
     symbol: string,
-    price?: string,
+    price: number,
 }
 
 export const createCryptocurrency: RequestHandler<unknown, unknown, CreateCryptocurrencyBody, unknown> = async (req, res) => {
     const name = req.body.name.trim();
     const symbol = req.body.symbol.trim();
-    const price = req.body.price?.trim();
-
+    const price = req.body.price;
+    
     try {
         if (!name) {
             throw createHttpError(400, "Cryptocurrency must have a name");
@@ -58,14 +58,16 @@ export const createCryptocurrency: RequestHandler<unknown, unknown, CreateCrypto
         if (!symbol) {
             throw createHttpError(400, "Cryptocurrency must have a symbol");
         }
-
+        
         const newCryptocurrency = await prisma.cryptocurrency.create({
             data: {
-                name: name.trim(),
-                symbol: symbol.trim(),
+                name: name,
+                symbol: symbol,
                 price: price
             },
         });
+
+        console.log("newCryptocurrency",newCryptocurrency)
         res.status(201).json(newCryptocurrency);
 
     } catch (error) {
@@ -80,14 +82,14 @@ interface UpdateCryptocurrencyParams {
 interface UpdateCryptocurrencyBody {
     name: string,
     symbol: string,
-    price?: string,
+    price?: number,
 }
 
 export const updateCryptocurrency: RequestHandler<UpdateCryptocurrencyParams, unknown, UpdateCryptocurrencyBody, unknown> = async (req, res) => {
     const cryptoId = req.params.cryptoId;
     const newName = req.body.name.trim();
     const newSymbol = req.body.symbol.trim();
-    const newPrice = req.body.price?.trim();
+    const newPrice = req.body.price;
 
     try {
 

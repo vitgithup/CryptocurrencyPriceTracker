@@ -7,7 +7,7 @@ import * as CryptocurrenciesApi from '../network/cryptocurrencies_api';
 
 export default function Home() {
   const [cryptocurrencies, setCryptocurrencies] = useState<Cryptocurrency[]>([]);
-  const [selectCryptocurrency, setSelectCryptocurrency] = useState<Cryptocurrency>({ id: 0, name: '', symbol: '', price: '' });
+  const [selectCryptocurrency, setSelectCryptocurrency] = useState<Cryptocurrency>({ id: 0, name: '', symbol: '', price: 0.0 });
 
   const fetchData = async () => {
     try {
@@ -57,7 +57,7 @@ export default function Home() {
         const response = await CryptocurrenciesApi.createCryptocurrency({ name: selectCryptocurrency.name, symbol: selectCryptocurrency.symbol, price: selectCryptocurrency.price })
         setCryptocurrencies([response, ...cryptocurrencies]);
       }
-      setSelectCryptocurrency({ id: 0, name: '', symbol: '', price: '' });
+      setSelectCryptocurrency({ id: 0, name: '', symbol: '', price: 0.0 });
     } catch (error) {
       console.error('Error updating cryptocurrency:', error);
     }
@@ -105,12 +105,12 @@ export default function Home() {
           <input
             placeholder="Price" type='number'
             value={selectCryptocurrency.price}
-            onChange={(e) => setSelectCryptocurrency({ ...selectCryptocurrency, price: e.target.value.toUpperCase() })}
+            onChange={(e) => setSelectCryptocurrency({ ...selectCryptocurrency, price: Number(e.target.value) })}
             className="mb-2 w-full p-2 border border-gray-300 rounded" required
           />
           <div className='flex justify-around'>
             <button type="reset" className="w-[40%] p-2 text-white bg-blue-500 rounded hover:bg-blue-600" value="Reset"
-              onClick={() => setSelectCryptocurrency({ id: 0, name: '', symbol: '', price: '' })}
+              onClick={() => setSelectCryptocurrency({ id: 0, name: '', symbol: '', price: 0.0 })}
             >
               Clear
             </button>

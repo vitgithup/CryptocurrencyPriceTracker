@@ -42,8 +42,8 @@ async function updatePrice() {
   for (let i = 0; i < cryptocurrencies.length; i++) {
     const item = cryptocurrencies[i];
     const price = await getQuotes(item.name);
-    item.price = price+""; 
-    console.log("price", item.price);
+    item.price = price; 
+    // console.log("price", item.price);
     await prisma.cryptocurrency.update({
       where: {
         id: Number(item.id),
